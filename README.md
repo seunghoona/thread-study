@@ -119,3 +119,52 @@ Exception in thread "main" java.util.concurrent.CancellationException
 동시에 실행한 작업 중 제일 짧게 걸리는 작업 만큼 시간 소요   
 같은 일을 여러 쓰레드를 통해 수행한 뒤 먼저 응답이 오면 사실상 나머지는 필요가 X   
 블로킹 콜 로 동작   
+
+
+# CompletableFuture
+
+---
+
+## 정의 
++ java에서 비동기(Asynchronous) 프로그래밍을 가능케하는 인터페이스
++ Future을 통해서 어느정도 가능했지만, 콜백 정의 처럼 제한적인 것들이 있기에 이러한 것들을 극복함
++ 따로 쓰레드풀을 선언하지 않아도 실행이 되며, 쓰레드를 명시적으로 닫아주지 않아도 된다
+
+### Future의 한계
++ 외부에서 Future을 완료시킬 수 없었음 --> 취소, 타임아웃 설정 불가능
++ 항상 블로킹 코드(get()) 뒤에 콜백을 수행해야 했다
+  + 블로킹 코드(get())를 사용하지 않고서는 결과의 보장이 되는 상황을 특정할 수 없기 때문
++ 여러 Future를 조합해서 사용할 수 없었다
++ 예외 처리용 API를 제공하지 않았다 
+
+### 주요 인터페이스
+
+| 린터값이 없는경우 | 리턴값이 있는 경우 |
+|:---:|:---:|
+|runAsync() | supplyAsync() |
+
+| 콜백 제공 |조합하기|예외처리|
+|:---:|:---:|:---:|
+|thenApply(Function)|thenCompose()|exceptionally(Function)
+|thenAccept(Consumer)|thenCombine()|handle(BiFunction)
+|thenRun(Runnable)|allOf()
+| |anyOf()|
+
+### Callback
+어떤 일을 다른 객체에게 맡기고 그일이 끝나서 다시 부를때 까지 나의 일을 하는 것
+
+#### .thenApply(Function)
+> 넘겨받은 return값에 대해서 처리를 하고 해당값을 다시 return한다
+> 
+#### .thenAccept(Consumer)
+> Consumer가 인자로 온다. return값을 받아서 처리만 하고 따로 return값은 없다
+
+#### .thenRun(Runnable)
+> Runnable이 인자로 온다. return값을 받지도않고 반환하지도 않는다, 추가적인 행동만 한다
+
+
+### 조합하기
+
+
+https://velog.io/@neity16/Java-8-5-CompletableFuture
+https://velog.io/@dnstlr2933/CompletableFuture-API
