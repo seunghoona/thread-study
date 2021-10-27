@@ -38,3 +38,27 @@
 ##join
   + 해당 쓰레드 작업이 끝날 때 까지 기다리게 하는 것
   + 쓰레드의 순서를 제어할 때 사용할 수 있음
+
+# [Executors]
+
+---
+
+## 정의 
+>고수준 (High-Level) Concurrency 프로그래밍   
+쓰레드를 만들고 관리하는 작업을 애플리케이션에서 분리해서 관리   
+쓰레드 만들기 : 애플리케이션에서 사용될 쓰레드를 만들거나, 쓰레드 풀을 통해 관리   
+쓰레드 관리 : 쓰레드의 생명 주기를 관리   
+작업 처리 및 실행 : 쓰레드로 작업을 수행하기 위한 API를 제공   
+
+
++ Executor.execute(Runnable) or Executor.submit(Runnable)
++ Executor.shutdown() // 할일을 모두 마치고 종료
++ Executor.shutdownNow() // 지금 당장 종료
+  + ExecutorService
+    + Executor 를 상속 받은 인터페이스
+    + Runnable과 Callable 모두 실행 가능
+    + Executor 를 종료하거나, 여러 Callable을 동시에 실행할 수도 있음
+
+  + ScheduledExecutorService
+    + ExecutorService 를 상속받은 인터페이스
+    + 특정 시간 이후에 또는 주기적으로 작업을 수행하게 하는 스케줄 기능
