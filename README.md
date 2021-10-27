@@ -1,6 +1,5 @@
 # 쓰레스란?
 
----
 >쓰레드란 프로그램(프로세스) 실행의 단위이며  
 하나의 프로세스는 여러개의 쓰레드로 구성이 가능하다.  
 하나의 프로세스를 구성하는 쓰레드들은 프로세스에 할당된 메모리, 자원 등을 공유한다.  
@@ -23,7 +22,6 @@
 
 # Thread 구현 기초
 
----
 
 1. 스레드를 각자 구현해보자 
 
@@ -41,7 +39,6 @@
 
 # [Executors]
 
----
 
 ## 정의 
 >고수준 (High-Level) Concurrency 프로그래밍   
@@ -65,8 +62,6 @@
 
 # Callable & Future
 
----
-
 ## 정의 
 > Runnable과 같은 쓰레드 생성에 사용되는 인터페이스   
 > Runnable은 반환(return) 타입이 void   
@@ -89,10 +84,10 @@
 
 ### 주요기능
 
-####get()   
+#### get()   
 > 블로킹(Blocking) 작업의 처리 결과를 get 하기 위해서 결과를 기다리게 된다(Blocking 상태)
 
-####isDone()   
+#### isDone()   
 > 작업이 완료되었으면 true / 아니면 false 반환
 
 #### .cancel()
@@ -110,11 +105,11 @@ Exception in thread "main" java.util.concurrent.CancellationException
 ```
 
 
-####invokeAll()
+#### invokeAll()
 > 동시에 실행한 작업 중 제일 오래 걸리는 작업만큼 시간 소요
 > 모든 결과가 수행된 뒤 처리되어야 할 때 사용
 
-####invokeAny()
+#### invokeAny()
 > 여러 작업 중 하나라도 먼저 응답이 오면 끝난다   
 동시에 실행한 작업 중 제일 짧게 걸리는 작업 만큼 시간 소요   
 같은 일을 여러 쓰레드를 통해 수행한 뒤 먼저 응답이 오면 사실상 나머지는 필요가 X   
