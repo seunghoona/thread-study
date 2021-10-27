@@ -52,8 +52,8 @@
 
 
 + Executor.execute(Runnable) or Executor.submit(Runnable)
-+ Executor.shutdown() // 할일을 모두 마치고 종료
-+ Executor.shutdownNow() // 지금 당장 종료
++ Executor.shutdown()  // 할일을 모두 마치고 종료
++ Executor.shutdownNow()  // 지금 당장 종료
   + ExecutorService
     + Executor 를 상속 받은 인터페이스
     + Runnable과 Callable 모두 실행 가능
@@ -62,3 +62,60 @@
   + ScheduledExecutorService
     + ExecutorService 를 상속받은 인터페이스
     + 특정 시간 이후에 또는 주기적으로 작업을 수행하게 하는 스케줄 기능
+
+# Callable & Future
+
+---
+
+## 정의 
+> Runnable과 같은 쓰레드 생성에 사용되는 인터페이스   
+> Runnable은 반환(return) 타입이 void   
+> Callable은 반환(return) 타입이 객체 
+
+
+## [ Future ]
+
+### 정의 
+
+- 비동기적인 작업의 현재 상태를 조회하거나 결과를 가져오기 위한 객체
+- Runnable / Callable의 상태를 조회하거나 결과를 확인하기 위해 사용 
+- 시간이 걸릴 수 있는 작업을 Future 내부에 작성하고,
+호출자 스레드가 결과를 기다리는 동안 다른 유용한 작업을 할 수 있음
+--> 실행을 맞기고 미래 시점에 결과를 얻는 것으로 이해 가능
+- 처리 결과에 대한 콜백을 정의할 수 없어서 이후에 CompletableFuture이 등장함
+- .get() 을 통해서 블로킹(Blocking) 콜을 수행
+: .get()을 통해서 결과를 확인하기 위해 결과를 기다린다 --> 블로킹(Blocking)
+
+
+### 주요기능
+
+####get()   
+> 블로킹(Blocking) 작업의 처리 결과를 get 하기 위해서 결과를 기다리게 된다(Blocking 상태)
+
+####isDone()   
+> 작업이 완료되었으면 true / 아니면 false 반환
+
+#### .cancel()
+| Boolean | 파라미터 값 | 결과 값 | 
+|:---: | :---:|:---:|
+| true |작업 interupt하고 종료| 정상적으로 cancel 수행 O
+| false|작업이 끝날 때 까지 대기 후 종료 | 정상적으로 cancel 수행 X
+
++ cancle 이후에는 get을 통해서 결과를 기다리며 값을 가져올 수 없다.
+```java
+Exception in thread "main" java.util.concurrent.CancellationException
+	at java.util.concurrent.FutureTask.report(FutureTask.java:121)
+	at java.util.concurrent.FutureTask.get(FutureTask.java:192)
+	at com.seunghoo.thread.future.FutureBasicCancle.main(FutureBasicCancle.java:16)
+```
+
+
+####invokeAll()
+> 동시에 실행한 작업 중 제일 오래 걸리는 작업만큼 시간 소요
+> 모든 결과가 수행된 뒤 처리되어야 할 때 사용
+
+####invokeAny()
+> 여러 작업 중 하나라도 먼저 응답이 오면 끝난다   
+동시에 실행한 작업 중 제일 짧게 걸리는 작업 만큼 시간 소요   
+같은 일을 여러 쓰레드를 통해 수행한 뒤 먼저 응답이 오면 사실상 나머지는 필요가 X   
+블로킹 콜 로 동작   
